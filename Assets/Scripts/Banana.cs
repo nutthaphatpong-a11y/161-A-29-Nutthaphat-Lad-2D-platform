@@ -19,8 +19,9 @@ public class Banana : Weapon
         if (character is Enemy)
         {
             character.TakeDamage(this.damage);
+            Destroy(gameObject);
         }
-          
+        
 
     }
 

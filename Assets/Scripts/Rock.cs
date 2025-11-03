@@ -14,16 +14,20 @@ public class Rock : Weapon
 
     public override void OnHitWith(Character obj)
     {
-        // เมื่อหินชนกับ object ประเภท Player ให้สร้างความเสียหาย
+        
         if (obj is Player)
+        {
             obj.TakeDamage(this.damage);
+            Destroy(gameObject);
+        }
+            
     }
 
     void Start()
     {
         damage = 40;
-        force = new Vector2(GetShootDirection() * 90, 400); // แรงแนวนอน + แนวตั้ง
-        Move(); // ขว้างหินทันทีที่สร้าง
+        force = new Vector2(GetShootDirection() * 90, 400);
+        Move(); 
     }
 
 }
