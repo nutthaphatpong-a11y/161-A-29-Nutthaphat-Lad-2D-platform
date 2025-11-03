@@ -12,7 +12,7 @@ public abstract class Character : MonoBehaviour
     protected Animator anim;
     protected Rigidbody2D rb;
 
-    public void Intialize(int startHealth)
+    public void Initialize(int startHealth)
     {
         Health = startHealth;
         Debug.Log($"{this.name} is initialed Health : {this.Health}");
@@ -26,6 +26,8 @@ public abstract class Character : MonoBehaviour
     {
         Health -= damage;
         Debug.Log($"{this.name} take damage {damage}. current Heath : {Health}");
+
+        IsDead();
     }
 
     public bool IsDead() 
