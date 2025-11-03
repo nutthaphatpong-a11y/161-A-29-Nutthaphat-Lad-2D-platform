@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Character : MonoBehaviour
 {
-
     private int health;
 
     public int Health
@@ -11,15 +11,16 @@ public abstract class Character : MonoBehaviour
         set
         {
             health = (value < 0) ? 0 : value;
-            UpdateHealthBar(); // ✅ เรียกอัพเดตทุกครั้งที่เปลี่ยนค่า Health
+            UpdateHealthBar();
         }
     }
 
     protected Animator anim;
     protected Rigidbody2D rb;
 
-    [SerializeField] private HealthBar healthBarPrefab; // ✅ ใส่ Prefab ของ HealthBar จาก Inspector
+    [SerializeField] private HealthBar healthBarPrefab; 
     private HealthBar healthBarInstance;
+
 
     public void Initialize(int startHealth)
     {
@@ -29,6 +30,7 @@ public abstract class Character : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
+        
         if (healthBarPrefab != null)
         {
             var canvas = GameObject.Find("WorldCanvas");
@@ -36,19 +38,22 @@ public abstract class Character : MonoBehaviour
             healthBarInstance.SetTarget(this.transform);
             UpdateHealthBar();
         }
-
     }
 
-    public void TakeDamage (int damage)
+    public void TakeDamage(int damage)
     {
         Health -= damage;
         Debug.Log($"{this.name} take damage {damage}. current Heath : {Health}");
 
-        IsDead();
+        if (IsDead())
+        {
+            if (healthBarInstance != null)
+                Destroy(healthBarInstance.gameObject);
+        }
     }
 
-    public bool IsDead() 
-    { 
+    public bool IsDead()
+    {
         if (Health <= 0)
         {
             Destroy(this.gameObject);
@@ -57,12 +62,6 @@ public abstract class Character : MonoBehaviour
         }
         else return false;
     }
-
-    void Start()
-    {
-        
-    }
-
 
     private void UpdateHealthBar()
     {
