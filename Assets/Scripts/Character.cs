@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public abstract class Character : MonoBehaviour
 {
     private int health;
+    private int maxHealth;
 
     public int Health
     {
@@ -24,8 +25,9 @@ public abstract class Character : MonoBehaviour
 
     public void Initialize(int startHealth)
     {
+        maxHealth = startHealth;
         Health = startHealth;
-        Debug.Log($"{this.name} is initialed Health : {this.Health}");
+        Debug.Log($"{this.name} initialized with Health : {this.Health}/{this.maxHealth}");
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -43,7 +45,7 @@ public abstract class Character : MonoBehaviour
     public void TakeDamage(int damage)
     {
         Health -= damage;
-        Debug.Log($"{this.name} take damage {damage}. current Heath : {Health}");
+        Debug.Log($"{this.name} take damage {damage}. current Heath : {Health}/{maxHealth}");
 
         if (IsDead())
         {
@@ -66,6 +68,6 @@ public abstract class Character : MonoBehaviour
     private void UpdateHealthBar()
     {
         if (healthBarInstance != null)
-            healthBarInstance.UpdateHealthBar(Health, 100); // สมมติ MaxHealth = 100
+            healthBarInstance.UpdateHealthBar(Health, maxHealth);
     }
 }
