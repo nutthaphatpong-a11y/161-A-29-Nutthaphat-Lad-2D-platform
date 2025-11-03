@@ -49,7 +49,7 @@ public class Player : Character, IShootable
             if (banana != null)
                 banana.InitWeapon(20, this);
 
-            WaitTime = 0f; // reset timer หลังยิง
+            WaitTime = 0.0f; // reset
         }
     }
    

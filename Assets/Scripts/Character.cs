@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public abstract class Character : MonoBehaviour
 
     protected Animator anim;
     protected Rigidbody2D rb;
+
 
     public void Initialize(int startHealth)
     {
