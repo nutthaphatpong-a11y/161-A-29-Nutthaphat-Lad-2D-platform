@@ -5,13 +5,21 @@ public abstract class Character : MonoBehaviour
 
     private int health;
 
-    public int Health 
-    { get => health;
-        set => health = (value < 0) ? 0 : value; }
+    public int Health
+    {
+        get => health;
+        set
+        {
+            health = (value < 0) ? 0 : value;
+            UpdateHealthBar(); // ✅ เรียกอัพเดตทุกครั้งที่เปลี่ยนค่า Health
+        }
+    }
 
     protected Animator anim;
     protected Rigidbody2D rb;
 
+    [SerializeField] private HealthBar healthBarPrefab; // ✅ ใส่ Prefab ของ HealthBar จาก Inspector
+    private HealthBar healthBarInstance;
 
     public void Initialize(int startHealth)
     {
@@ -20,6 +28,14 @@ public abstract class Character : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        if (healthBarPrefab != null)
+        {
+            var canvas = GameObject.Find("WorldCanvas");
+            healthBarInstance = Instantiate(healthBarPrefab, canvas.transform);
+            healthBarInstance.SetTarget(this.transform);
+            UpdateHealthBar();
+        }
 
     }
 
@@ -47,9 +63,10 @@ public abstract class Character : MonoBehaviour
         
     }
 
-    
-    void Update()
+
+    private void UpdateHealthBar()
     {
-        
+        if (healthBarInstance != null)
+            healthBarInstance.UpdateHealthBar(Health, 100); // สมมติ MaxHealth = 100
     }
 }
